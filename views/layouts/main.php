@@ -20,6 +20,7 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link rel="shortcut icon" href="<?= Yii::$app->request->baseUrl . '/favicon.ico' ?>" type="image/x-icon">
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -33,27 +34,43 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
+    $allMenuItems = [];
+    $usersMenuItem = [];
+    $loginMenuItem = [];
+
+    if ( !Yii::$app->user->isGuest ) {
+        $usersMenuItem = [
+                'label' => 'Users ',
+                'url' => ['/site/logout'],
+                'linkOptions' => ['data-method' => 'post']
+            ];
+    }
+
+    if ( Yii::$app->user->isGuest ) {
+        $loginMenuItem = ['label' => 'Login', 'url' => ['/site/login']];
+    } else {
+        $loginMenuItem = [
+                'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                'url' => ['/site/logout'],
+                'linkOptions' => ['data-method' => 'post']
+            ];
+    }
+
+    if ( $usersMenuItem ) {
+        array_push($allMenuItems, $usersMenuItem);
+    }
+    if ( $loginMenuItem ) {
+        array_push($allMenuItems, $loginMenuItem);
+    }
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ?
-                ['label' => 'Login', 'url' => ['/site/login']] :
-                [
-                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
-                ],
-            Yii::$app->user->isGuest ?
-                ['label' => '', 'url' => ['/site/login']] :
-                [
-                    'label' => 'MGDEV',
-                    'url' => ['/site/about'],
-                    'linkOptions' => ['data-method' => 'post']
-                ],
-        ],
+        'items' => $allMenuItems,
     ]);
+
+
+
     NavBar::end();
     ?>
 
