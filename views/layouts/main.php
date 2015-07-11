@@ -8,6 +8,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\common\Constant;
 
 AppAsset::register($this);
 ?>
@@ -39,22 +40,38 @@ AppAsset::register($this);
     $usersMenuItem = [];
     $loginMenuItem = [];
 
-    if ( !Yii::$app->user->isGuest ) {
-        $usersMenuItem = [
-                'label' => 'Users ',
-                'url' => ['/site/logout'],
-                'linkOptions' => ['data-method' => 'post']
-            ];
-    }
-
     if ( Yii::$app->user->isGuest ) {
         $loginMenuItem = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
+
+
         $loginMenuItem = [
-                'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                'url' => ['/site/logout'],
-                'linkOptions' => ['data-method' => 'post']
+            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+            'url' => ['/site/logout'],
+            'linkOptions' => ['data-method' => 'post']
+        ];
+
+        // Add menu items that are only available to ADMIN users
+        $userType = Yii::$app->session->get(Constant::USER_TYPE);
+        if ( Constant::USER_TYPE_ADMIN === $userType) {
+            $usersMenuItem = [
+                'label' => 'Users ',
+                'items' => [
+                    ['url' => ['/site/add-user'], 'label' => 'Add User'],
+                    ['url' => '#section-1-1', 'label' => 'List User', 'icon' => 'arrow-right', 'content' => $content],
+                ]
             ];
+        }
+
+        if ( Constant::USER_TYPE_USER === $userType) {
+            $usersMenuItem = [
+                'label' => 'Account',
+                'items' => [
+                    ['url' => '', 'label' => 'Profile' ],
+                    ['url' => '', 'label' => 'Playlist'],
+                ]
+            ];
+        }
     }
 
     if ( $usersMenuItem ) {

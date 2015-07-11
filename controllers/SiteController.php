@@ -7,7 +7,11 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
+use app\models\AddUserForm;
+use app\models\User;
 use app\models\ContactForm;
+use app\common\Constant;
+
 
 class SiteController extends Controller
 {
@@ -19,7 +23,7 @@ class SiteController extends Controller
                 'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', ''],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -52,16 +56,41 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+    public function actionAddUser()
+    {
+        $model = new AddUserForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            // MGDEV - TODO finish populating the user object
+            $newUser = new User();
+            $newUser->username = $model->email;
+            $newUser->auth_key = 'ASDF';
+            $newUser->password_hash = 'asdf'
+            $newUser->email =  = $model->email;
+            $newUser->save();
+            Yii::info('MGDEV - Saving the record');
+            return $this->goBack();
+        }
+
+        return $this->render('add-user', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionLogin()
     {
+        Yii::info('MGDEV - actionLogin() has been called' ); 
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            Yii::$app->session->set(Constant::USER_TYPE, $model->type);
             return $this->goBack();
         }
+
+        
         return $this->render('login', [
             'model' => $model,
         ]);

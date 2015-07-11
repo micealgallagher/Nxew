@@ -15,6 +15,7 @@ class LoginForm extends Model
     public $rememberMe = true;
 
     private $_user = false;
+    public $type;
 
 
     /**
@@ -57,7 +58,9 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            $user = $this->getUser();
+            $this->type = $user->type;
+            return Yii::$app->user->login($user, $this->rememberMe ? 3600*24*30 : 0);
         }
         return false;
     }
