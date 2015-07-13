@@ -3,12 +3,16 @@
 namespace app\models;
 
 use Yii;
+use DateTime;
 use app\common\Constant;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "user".
  *
  * @property integer $id
+ * @property string $forename
+ * @property string $surname
  * @property string $username
  * @property string $auth_key
  * @property string $password_hash
@@ -19,110 +23,43 @@ use app\common\Constant;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
+class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
 
-    public $id;
-    public $username;
-    public $auth_key;
-    public $password_hash;
-    public $password_reset_token;
-    public $email;
-    public $status;
-    public $type;
-    public $created_at;
-    public $updated_at;
 
-    public $authKey;
-    public $accessToken;
-    public $password;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-            'type' => Constant::USER_TYPE_ADMIN,
-        ],
-    ];
-
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'user';
     }
 
     /**
-     * @inheritdoc
+     * Finds an identity by the given ID.
+     *
+     * @param string|integer $id the ID to be looked for
+     * @return IdentityInterface|null the identity object that matches the given ID.
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return static::findOne($id);
+    }
+
+    public static function findByUsername($username) {
+        return User::findOne(['username' => $username]);
     }
 
     /**
-     * @inheritdoc
+     * Finds an identity by the given token.
+     *
+     * @param string $token the token to be looked for
+     * @return IdentityInterface|null the identity object that matches the given token.
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return static::findOne(['access_token' => $token]);
     }
 
     /**
-     * Finds user by username
-     *
-     * @param  string      $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
-    }
-
-    /**
-     * Validates password
-     *
-     * @param  string  $password password to validate
-     * @return boolean if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
-    }
-
-    /**
-     * @inheritdoc
+     * @return int|string current user ID
      */
     public function getId()
     {
@@ -130,13 +67,21 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
 
     /**
-     * @inheritdoc
+     * @return string current user auth key
      */
     public function getAuthKey()
     {
-        return $this->authKey;
+        return $this->auth_key;
     }
 
+    /**
+     * @param string $authKey
+     * @return boolean if auth key is valid for current user
+     */
+    public function validateAuthKey($authKey)
+    {
+        return $this->getAuthKey() === $authKey;
+    }
 
     /**
      * @inheritdoc
@@ -144,8 +89,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
+            [['forename', 'surname', 'username', 'password_hash', 'email', 'created_at', 'updated_at', 'type'], 'required'],
             [['status', 'created_at', 'updated_at'], 'integer'],
+            [['forename', 'surname'], 'string', 'max' => 50],
             [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['type'], 'string', 'max' => 15],
@@ -162,6 +108,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return [
             'id' => 'ID',
+            'forename' => 'Forename',
+            'surname' => 'Surname',
             'username' => 'Username',
             'auth_key' => 'Auth Key',
             'password_hash' => 'Password Hash',
@@ -172,5 +120,58 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function resetPassword() {
+        $password = Yii::$app->security->generateRandomString(8);
+        $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
+
+        Yii::info('Username: ' . $this->username . ' | Password: ' . $password);
+    }
+
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password_hash);
+    }
+
+    public function beforeSave($insert)
+    {
+        Yii::info('MGDEV - We got to the beforeSave funciton. ');
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->auth_key = Yii::$app->security->generateRandomString();
+                $now = new DateTime();
+                $this->created_at = $now->getTimestamp();
+                $this->updated_at = $now->getTimestamp();
+
+                $password = Yii::$app->security->generateRandomString(8);
+                Yii::info('Username: ' . $this->username . ' | Password: ' . $password);
+
+
+
+                $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash('miceal');
+
+                $this->auth_key = Yii::$app->security->generateRandomString();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getTypeOptions() {
+        return
+            [
+                Constant::USER_TYPE_ADMIN => Constant::USER_TYPE_ADMIN,
+                Constant::USER_TYPE_USER => Constant::USER_TYPE_USER,
+            ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAccount()
+    {
+        return $this->hasOne(Account::className(), ['user_id' => 'id']);
     }
 }

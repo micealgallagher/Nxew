@@ -45,7 +45,9 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            if (!$user || !$user->validatePassword($this->password)) {
+            Yii::info('MGDEV - getUser returned ' . $this->getUser()->password_hash);
+
+            if (!$user || !$user->validatePassword($this->password, $user->password_hash)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
         }
@@ -57,11 +59,23 @@ class LoginForm extends Model
      */
     public function login()
     {
-        if ($this->validate()) {
+            Yii::info('MGDEV : about to get the user');
             $user = $this->getUser();
+
+        Yii::info('MGDEV : we are about to validate!');
+        if ($this->validate()) {
+
+
+            Yii::info('MGDEV : we are about to validate the password!');
+            //if (Yii::$app->security->validatePassword($this->password, $user->password_hash)) {
+            //if (Yii::$app->security->validatePassword('miceal', '$2y$13$CqmT.GsjGmlpatsz3TAuCOjen1dOrjLr0bOz8RHHXPA4Z03vdzYKG')) {
+            Yii::info('MGDEV : Password validated!!!');
             $this->type = $user->type;
-            return Yii::$app->user->login($user, $this->rememberMe ? 3600*24*30 : 0);
-        }
+            return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
+            //}
+        }/*}else {
+            Yii::info('MGDEV : validation failed!');
+        }*/
         return false;
     }
 
@@ -72,9 +86,12 @@ class LoginForm extends Model
      */
     public function getUser()
     {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
-        }
+
+        Yii::info('MGDEV - getting the user with the username ' . $this->username );
+
+            $usser = User::findByUsername($this->username);
+
+        Yii::info('MGDEV - getting the user with the username ' . $usser->password_hash );
 
         return $this->_user;
     }

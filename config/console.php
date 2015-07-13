@@ -28,4 +28,7 @@ return [
         'db' => $db,
     ],
     'params' => $params,
+    'controllerMap' => [
+        'user' => 'app\controllers\UserController',
+    ]
 ];

@@ -74,6 +74,22 @@ AppAsset::register($this);
         }
     }
 
+    $usersMenuItem = [
+        'label' => 'Users ',
+        'items' => [
+            ['url' => ['user/create'], 'label' => 'Add User'],
+            ['url' => ['user/index'], 'label' => 'List User', 'icon' => 'arrow-right', 'content' => $content],
+        ]
+    ];
+
+    $accountMenuItem = [
+        'label' => 'Account ',
+        'url' => ['account/profile']
+    ];
+
+    if ( $usersMenuItem ) {
+        array_push($allMenuItems, $accountMenuItem);
+    }
     if ( $usersMenuItem ) {
         array_push($allMenuItems, $usersMenuItem);
     }

@@ -8,9 +8,9 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\AddUserForm;
-use app\models\User;
 use app\models\ContactForm;
 use app\common\Constant;
+use app\models\User;
 
 
 class SiteController extends Controller
@@ -56,36 +56,38 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
-    public function actionAddUser()
+    public function actionLogin()
     {
-        $model = new AddUserForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-            // MGDEV - TODO finish populating the user object
-            $newUser = new User();
-            $newUser->username = $model->email;
-            $newUser->auth_key = 'ASDF';
-            $newUser->password_hash = 'asdf'
-            $newUser->email =  = $model->email;
-            $newUser->save();
-            Yii::info('MGDEV - Saving the record');
+        Yii::info('MGDEV - actionLogin() has been called' );
+        if (!\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            Yii::$app->session->set(Constant::USER_TYPE, $model->type);
             return $this->goBack();
         }
 
-        return $this->render('add-user', [
+        return $this->render('login', [
             'model' => $model,
         ]);
     }
 
-    public function actionLogin()
+    /*public function actionLogin()
     {
         Yii::info('MGDEV - actionLogin() has been called' ); 
-        if (!\Yii::$app->user->isGuest) {
+        if (! Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
+        $possibleUser = User::findByUsername($model->username);
+       $possibleUser->actionAbout()
+        Yii::info('MGDEV : about to log in!');
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->security->validatePassword($model->password, '$2y$13$CqmT.GsjGmlpatsz3TAuCOjen1dOrjLr0bOz8RHHXPA4Z03vdzYKG')) {
+            Yii::info('MGDEV : we are logged in!');
+            Yii::$app->user->login($possibleUser);
             Yii::$app->session->set(Constant::USER_TYPE, $model->type);
             return $this->goBack();
         }
@@ -94,7 +96,7 @@ class SiteController extends Controller
         return $this->render('login', [
             'model' => $model,
         ]);
-    }
+    }*/
 
     public function actionLogout()
     {

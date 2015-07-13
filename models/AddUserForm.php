@@ -42,9 +42,10 @@ class AddUserForm extends Model
     }
 
     public function getTypeOptions() {
-        return [
-            Constant::USER_TYPE_USER,
-            Constant::USER_TYPE_ADMIN,
-        ];
+        return
+            [
+                Constant::USER_TYPE_ADMIN => Constant::USER_TYPE_ADMIN,
+                Constant::USER_TYPE_USER => Constant::USER_TYPE_USER,
+            ];
     }
 }
