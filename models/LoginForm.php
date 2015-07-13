@@ -14,7 +14,7 @@ class LoginForm extends Model
     public $password;
     public $rememberMe = true;
 
-    private $_user = false;
+    public $_user;
     public $type;
 
 
@@ -45,7 +45,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            Yii::info('MGDEV - getUser returned ' . $this->getUser()->password_hash);
+            Yii::info('MGDEV - getUser returned ' .  $_user->password_hash);
 
             if (!$user || !$user->validatePassword($this->password, $user->password_hash)) {
                 $this->addError($attribute, 'Incorrect username or password.');

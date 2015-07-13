@@ -84,7 +84,7 @@ AppAsset::register($this);
 
     $accountMenuItem = [
         'label' => 'Account ',
-        'url' => ['account/profile']
+        'url' => ['account/view']
     ];
 
     if ( $usersMenuItem ) {
