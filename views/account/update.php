@@ -18,6 +18,11 @@ $this->title = 'Update account';
     echo Html::tag('div', '<strong>Updated!</strong> Bio updated successfully.', $options);
 }?>
 
+<?php if ( (isset($isSaved) ? $isSaved : false) ) {
+    $options = ['class' =>'alert alert-success'];
+    echo Html::tag('div', '<strong>Saved!</strong> Bio created successfully.', $options);
+}?>
+
 <?= $this->render('_form', [
     'model' => $model,
 ]) ?>
