@@ -77,12 +77,15 @@ class AccountController extends Controller
                 $submittedModel->isNewRecord = false;
                 $submittedModel->user_id = $id;
                 $bio = $submittedModel->bio;
+                $website = $submittedModel->website;
                 $submittedModel->bio =  ' ';
+                $submittedModel->website =  ' ';
 
                 // Not sure why but the bio isn't been added to the update statement executed by ActiveRecord
                 // Saving the record twice seems to do the trick
                 $submittedModel->save(false);
                 $submittedModel->bio = $bio;
+                $submittedModel->website = $website;
                 $submittedModel->save(false);
 
                 return $this->render('update', [

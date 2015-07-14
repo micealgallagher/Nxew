@@ -32,6 +32,7 @@ class Account extends \yii\db\ActiveRecord
             [['user_id', 'bio'], 'required'],
             [['user_id'], 'integer'],
             [['bio'], 'string'],
+            [['website', 'facebook', 'twitter'], 'url'],
             [['user_id'], 'unique'],
         ];
     }
@@ -45,6 +46,9 @@ class Account extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'bio' => 'Bio',
+            'website' => 'Website',
+            'facebook' => 'Facebook',
+            'twitter' => 'Twitter',
         ];
     }
 
