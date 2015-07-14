@@ -124,7 +124,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 
     public function resetPassword() {
         $password = Yii::$app->security->generateRandomString(8);
-        $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
+        $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash(/*$password*/'miceal');
 
         Yii::info('Username: ' . $this->username . ' | Password: ' . $password);
         return $password;

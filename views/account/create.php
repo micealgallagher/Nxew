@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 
 $this->title = 'Create account';
 ?>
-<div class="account-create">
+gitrm
 
     <h1><?= Html::encode($this->title) ?></h1>
 

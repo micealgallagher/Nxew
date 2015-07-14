@@ -57,37 +57,19 @@ AppAsset::register($this);
             $usersMenuItem = [
                 'label' => 'Users ',
                 'items' => [
-                    ['url' => ['/site/add-user'], 'label' => 'Add User'],
-                    ['url' => '#section-1-1', 'label' => 'List User', 'icon' => 'arrow-right', 'content' => $content],
+                    ['url' => ['user/create'], 'label' => 'Add User'],
+                    ['url' => ['user/index'], 'label' => 'List User', 'icon' => 'arrow-right', 'content' => $content],
                 ]
             ];
         }
 
-        if ( Constant::USER_TYPE_USER === $userType) {
-            $usersMenuItem = [
-                'label' => 'Account',
-                'items' => [
-                    ['url' => '', 'label' => 'Profile' ],
-                    ['url' => '', 'label' => 'Playlist'],
-                ]
-            ];
-        }
+        $accountMenuItem = [
+            'label' => 'Account ',
+            'url' => ['account/view']
+        ];
     }
 
-    $usersMenuItem = [
-        'label' => 'Users ',
-        'items' => [
-            ['url' => ['user/create'], 'label' => 'Add User'],
-            ['url' => ['user/index'], 'label' => 'List User', 'icon' => 'arrow-right', 'content' => $content],
-        ]
-    ];
-
-    $accountMenuItem = [
-        'label' => 'Account ',
-        'url' => ['account/view']
-    ];
-
-    if ( $usersMenuItem ) {
+    if ( isset($accountMenuItem) ) {
         array_push($allMenuItems, $accountMenuItem);
     }
     if ( $usersMenuItem ) {

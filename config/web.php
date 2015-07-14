@@ -27,6 +27,16 @@ $config = [
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
             'useFileTransport' => true,
+            'fileTransportPath' => '../mail/sent',
+            'viewPath' => '@app/mail'
+            /*'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => '',
+                'username' => '',
+                'password' => '',
+                'port' => 25,
+                'encryption' => 'tls',
+            ],*/
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
