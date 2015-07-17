@@ -17,8 +17,15 @@ $this->title = 'View Account';
         <div class="col-md-4 col-lg-4 col-sm-5">
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title">
+                    <h3 class="panel-title" style="vertical-align: middle; height: 30px">
                         <?= Html::encode($user->getFullName()) ?>
+                        <?php
+
+                            $options = ['class' => 'btn btn-default pull-right fa fa-cog fa-1x'];
+                            $icon = Html::tag('i', '', $options);
+
+                            echo Html::a($icon, $account->website);
+                        ?>
                     </h3>
                 </div>
                 <div class="panel-body">
@@ -63,7 +70,23 @@ $this->title = 'View Account';
                     Playlist
                 </h3>
             </div>
-            <div class="panel-body">
+            <div class="panel-body playlist-container">
+                <div class="panel panel-default playlist-track">
+                    <div class="panel-body">
+                        <strong>Pushit</strong>
+                        <p>
+                            Tool - Lateralus
+                        </p>
+                    </div>
+                </div>
+                <div class="panel panel-default playlist-track">
+                    <div class="panel-body">
+                        <strong>21st Century Schizoid Man</strong>
+                        <p>
+                            King Crimson
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

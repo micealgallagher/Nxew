@@ -26,6 +26,20 @@ thead {
     padding-right: 15px;
 }
 
+.playlist-track {
+    margin-bottom: 0px;
+}
+
+.playlist-track:hover {
+    background-color: #f3f3f3;
+    cursor: pointer;
+}
+
+.playlist-container {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
 .wrap {
     min-height: 100%;
     height: auto;
