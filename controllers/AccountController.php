@@ -34,6 +34,17 @@ class AccountController extends Controller
                         'actions' => ['index', 'view', 'create', 'update', 'delete'],
                         'roles' => ['@'],
                     ],
+                    [
+                        'allow' => true,
+                        'actions' => ['update', 'delete'],
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            $id = Yii::app()->request->getParam('id', -1);
+                            $account = Account::findOne(['id' => id]);
+
+                            return $account->user_id == Yii::$app->user->getId();
+                        }
+                    ],
                 ],
             ],
         ];
@@ -63,12 +74,24 @@ class AccountController extends Controller
     {
         $id = Yii::$app->getUser()->id;
         $account = Account::findOne(['user_id' => $id]);
-        $user = User::findOne(['id' => $id ]);
+        if ( isset($account) ) {
+            $user = User::findOne(['id' => $id ]);
 
-        return $this->render('view', [
-            'account' => $account,
-            'user' => $user,
-        ]);
+            return $this->render('view', [
+                'account' => $account,
+                'user' => $user,
+            ]);
+        } else {
+            $account = new Account();
+            $id = Yii::$app->getUser()->id;
+            $user = User::findOne(['id' => $id]);
+
+            return $this->render('create', [
+                'model' => $account,
+                'user' => $user,
+            ]);
+        }
+
 
         /*if ( isset($account) ) {
             $submittedModel = new Account();
@@ -139,13 +162,21 @@ class AccountController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $userId = $model->user_id;
+        if ( $userId == Yii::$app->getUser()->id) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $user = User::findOne(['id' => $userId]);
+
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                    'user' => $user,
+                ]);
+            }
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+
         }
     }
 

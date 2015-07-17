@@ -25,6 +25,7 @@ $this->title = 'Update account';
 
 <?= $this->render('_form', [
     'model' => $model,
+    'user' => $user,
 ]) ?>
 
 </div>
