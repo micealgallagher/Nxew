@@ -12,4 +12,5 @@ class Constant
 	const USER_TYPE = 'user.type';
 	const USER_TYPE_ADMIN = 'Administrator';
 	const USER_TYPE_USER = 'User';
+	const URL_PREFIX = "http://";
 }

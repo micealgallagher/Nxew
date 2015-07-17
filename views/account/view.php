@@ -2,34 +2,58 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 
-$this->title = 'Update Account';
+$this->title = 'View Account';
 ?>
 <div class="account-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+    <div class="row">
+        <div class="col-md-4 col-lg-4 col-sm-5">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <?= Html::encode($user->getFullName()) ?>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <?= Html::encode($account->bio) ?>
+                </div>
+                <?php
+                    if ( $account->hasAnySocialItems() ) {
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'user_id',
-            'bio:ntext',
-        ],
-    ]) ?>
+                        echo '<div class="panel-body">';
+                        if (strlen($account->website) > 0) {
+                            $options = ['class' => 'fa fa-home fa-3x social-icon'];
+                            $icon = Html::tag('i', '', $options);
+
+                            echo Html::a($icon, $account->website);
+                        }
+
+                        if (strlen($account->twitter) > 0) {
+                            $options = ['class' => 'fa fa-twitter-square fa-3x social-icon'];
+                            $icon = Html::tag('i', '', $options);
+
+                            echo Html::a($icon, $account->twitter);
+                        }
+
+                        if (strlen($account->facebook) > 0) {
+                            $options = ['class' => 'fa fa-facebook-square fa-3x social-icon'];
+                            $icon = Html::tag('i', '', $options);
+
+                            echo Html::a($icon, $account->facebook);
+                        }
+                        echo '</div>';
+                    }
+                ?>
+            </div>
+            <?= Html::a('Edit', ['/account/update', 'id' => $account->id], ['class'=>'btn btn-success']) ?>
+        </div>
+    </div>
 
 </div>

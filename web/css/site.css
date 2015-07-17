@@ -22,6 +22,9 @@ thead {
 .title-bottom-padding {
     padding-bottom: 20px;
 }
+.social-icon {
+    padding-right: 15px;
+}
 
 .wrap {
     min-height: 100%;

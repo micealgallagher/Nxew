@@ -160,6 +160,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         }
     }
 
+    public function getFullName() {
+        return $this->forename . ' ' . $this->surname;
+    }
+
     public function getTypeOptions() {
         return
             [

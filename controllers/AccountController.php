@@ -63,8 +63,14 @@ class AccountController extends Controller
     {
         $id = Yii::$app->getUser()->id;
         $account = Account::findOne(['user_id' => $id]);
+        $user = User::findOne(['id' => $id ]);
 
-        if ( isset($account) ) {
+        return $this->render('view', [
+            'account' => $account,
+            'user' => $user,
+        ]);
+
+        /*if ( isset($account) ) {
             $submittedModel = new Account();
 
             $hasBioBeenUpdated = false;
@@ -102,7 +108,7 @@ class AccountController extends Controller
             Yii::info('MGDEV - no account found');
             $model = new Account();
             return $this->redirect(['create', 'model' => $model]);
-        }
+        }*/
     }
 
     /**

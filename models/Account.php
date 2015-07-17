@@ -2,7 +2,10 @@
 
 namespace app\models;
 
+
+use app\common\Constant;
 use Yii;
+use app\models\User;
 
 /**
  * This is the model class for table "account".
@@ -10,6 +13,9 @@ use Yii;
  * @property string $id
  * @property integer $user_id
  * @property string $bio
+ * @property string $website
+ * @property string $facebook
+ * @property string $twitter
  *
  * @property User $user
  */
@@ -60,8 +66,7 @@ class Account extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
-    public function beforeSave($insert)
-    {
+    public function beforeSave($insert) {
 
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
@@ -76,7 +81,27 @@ class Account extends \yii\db\ActiveRecord
         }
     }
 
+    public function hasAnySocialItems() {
+        return strlen($this->website) > 0 ||
+                strlen($this->facebook) > 0 ||
+                strlen($this->twitter) > 0;
+    }
+
+    /*public  function beforeValidate() {
+        if ( sizeof($this->website) > 0 && strpos(Constant::URL_PREFIX, $this->website) === false) {
+            $this->website = Constant::URL_PREFIX . $this->website;
+        }
+        if ( sizeof($this->twitter) > 0 &&strpos(Constant::URL_PREFIX, $this->twitter) === false) {
+            $this->twitter = Constant::URL_PREFIX . $this->twitter;
+        }
+        if ( sizeof($this->facebook) > 0 &&strpos(Constant::URL_PREFIX, $this->facebook) === false) {
+            $this->facebook = Constant::URL_PREFIX . $this->facebook;
+        }
+
+        return true;
+    }*/
+
     public function hasBioChanged($bio) {
-        return strcmp($bio, $this->bio) != 0;;
+        return strcmp($bio, $this->bio) != 0;
     }
 }
