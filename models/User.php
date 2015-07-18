@@ -130,6 +130,14 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $password;
     }
 
+    public function updatePassword($password) {
+        $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
+
+        Yii::info('MGDEV - User has manually updated password to ' . $password );
+        $this->save(false);
+        return $password;
+    }
+
     public function validatePassword($password)
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
@@ -177,6 +185,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function getAccount()
     {
-        return $this->hasOne(Account::className(), ['user_id' => 'id']);
+        return $this->hasOne(Account::className(), ['user_id' => 1]);
     }
 }

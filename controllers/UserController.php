@@ -3,6 +3,9 @@
 namespace app\controllers;
 
 use app\common\Constant;
+use app\models\Account;
+use app\models\SecurityForm;
+use app\models\UserDetail;
 use Yii;
 use app\models\User;
 use app\models\AddUserForm;
@@ -119,6 +122,56 @@ class UserController extends Controller
         }
     }
 
+    public function actionUserUpdate()
+    {
+        $userDetail = new UserDetail();
+        if ($userDetail->load(Yii::$app->request->post())) {
+            Yii::info('MGDEV - User detail update id recieved is: ' . $userDetail->forename);
+
+            $user = User::findOne(['id' => Yii::$app->getUser()->id]);
+            $user->forename = $userDetail->forename;
+            $user->surname = $userDetail->surname;
+
+            $user->save();
+            $account = Account::findOne(['user_id' => $user->id]);
+        }
+
+        return $this->render('../account/view', [
+            'user' => $user,
+            'account' => $account,
+        ]);
+    }
+
+    public function actionUserPasswordReset() {
+        $securityForm = new SecurityForm();
+        $userDetail = new UserDetail();
+
+        $user = User::findOne(['id' => Yii::$app->getUser()->id]);
+        $userDetail->forename = $user->forename;
+        $userDetail->surname = $user->surname;
+
+        if ($securityForm->load(Yii::$app->request->post())) {
+
+            if ( $securityForm->validate() ) {
+                $user->updatePassword($securityForm->newPassword);
+                Yii::info("MGDEV - Password has been updated to " . $securityForm->newPassword);
+
+                return $this->render('../setting/update', [
+                    'userDetail' => $userDetail,
+                    'securityForm' => $securityForm,
+                    'passwordUpdatedSuccessfully' => true,
+                ]);
+            } else {
+                Yii::info('MGDEV - Password will not be updated');
+                return $this->render('../setting/update', [
+                    'userDetail' => $userDetail,
+                    'securityForm' => $securityForm,
+                    'securityFormErrors' => $securityForm->errors,
+                ]);
+            }
+        }
+    }
+
     /**
      * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -152,7 +205,7 @@ class UserController extends Controller
                 Yii::info('MGDEV - rendering the update with id: ' . $model->email);
                 return $this->render('update', [
                     'model' => $model,
-                ]);
+                ]);print_r($errors);
             }
         }
 

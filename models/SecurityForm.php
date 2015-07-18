@@ -8,15 +8,11 @@ use yii\base\Model;
 /**
  * LoginForm is the model behind the login form.
  */
-class LoginForm extends Model
+class SecurityForm extends Model
 {
-    public $username;
-    public $password;
-    public $rememberMe = true;
-
-    public $_user;
-    public $type;
-
+    public $currentPassword;
+    public $newPassword;
+    public $newPasswordAgain;
 
     /**
      * @return array the validation rules.
@@ -25,11 +21,11 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
+            [['currentPassword', 'newPassword', 'newPasswordAgain'], 'required'],
+            ['newPassword', 'string', 'min' => 6],
+            ['newPasswordAgain', 'string', 'min' => 6],
             // password is validated by validatePassword()
-            ['password', 'validatePassword'],
+            ['currentPassword', 'validatePassword'],
         ];
     }
 
@@ -45,12 +41,23 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            Yii::info('MGDEV - Password is: ' . $this->password . ' password_hash is: ' . $user->password_hash);
+            Yii::info('MGDEV - Password is: ' . $this->currentPassword . ' password_hash is: ' . $user->password_hash);
 
-            if (!$user || !$user->validatePassword($this->password, $user->password_hash)) {
-                $this->addError($attribute, 'Current password is incorrect.');
+            if (!$user || !$user->validatePassword($this->currentPassword, $user->password_hash)) {
+                $this->addError($attribute, 'Incorrect username or password.');
+            } else {
+
+                if (!$user || $this->newPassword === $this->newPasswordAgain)    {
+                    return true;
+                } else {
+                    $this->addError('newPassword', 'Passwords don\'t match.');
+                    $this->addError('newPasswordAgain', 'Passwords don\'t match.');
+                    return false;
+                }
             }
         }
+
+        return false;
     }
 
     /**
@@ -59,8 +66,8 @@ class LoginForm extends Model
      */
     public function login()
     {
-            Yii::info('MGDEV : about to get the user');
-            $user = $this->getUser();
+        Yii::info('MGDEV : about to get the user');
+        $user = $this->getUser();
 
         Yii::info('MGDEV : we are about to validate!');
         if ($this->validate()) {
@@ -80,15 +87,12 @@ class LoginForm extends Model
     }
 
     /**
-     * Finds user by [[username]]
+     * Finds user current [[username]]
      *
      * @return User|null
      */
     public function getUser()
     {
-
-        Yii::info('MGDEV - getting the user with the username ' . $this->username );
-
-        return User::findByUsername($this->username);
+        return User::findOne(['id' => Yii::$app->getUser()->id]);
     }
 }

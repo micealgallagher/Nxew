@@ -24,7 +24,7 @@ $this->title = 'View Account';
                             $options = ['class' => 'btn btn-default pull-right fa fa-cog fa-1x'];
                             $icon = Html::tag('i', '', $options);
 
-                            echo Html::a($icon, $account->website);
+                            echo Html::a($icon,     ['/account/settings', 'id' => $account->user_id]);
                         ?>
                     </h3>
                 </div>

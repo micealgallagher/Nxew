@@ -2,7 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\SecurityForm;
 use app\models\User;
+use app\models\UserDetail;
 use Yii;
 use app\models\Account;
 use app\models\AccountSearch;
@@ -27,7 +29,7 @@ class AccountController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'create', 'update', 'delete'],
+                'only' => ['index', 'view', 'create', 'update', 'delete', 'settings'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -40,11 +42,25 @@ class AccountController extends Controller
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
                             $id = Yii::app()->request->getParam('id', -1);
-                            $account = Account::findOne(['id' => id]);
+                            $account = Account::findOne(['id' => $id]);
 
                             return $account->user_id == Yii::$app->user->getId();
                         }
                     ],
+                    [
+                        /*'allow' => true,
+                        'actions' => ['settings'],
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            $id = Yii::$app->request->getQueryParam('id');
+
+                            $account = Account::findOne(['id' => $id]);
+
+                            Yii::info('MGDEV - IN THE RULE id is ' . isset($account) );
+
+                            return $account->user_id == 666;
+                        }*/
+                    ]
                 ],
             ],
         ];
@@ -62,6 +78,28 @@ class AccountController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Lists all Account models.
+     * @return mixed
+     */
+    public function actionSettings($id)
+    {
+        $user = User::findOne(['id' => $id]);
+        $userDetail = new UserDetail();
+
+        if ( isset($user) ) {
+            $userDetail->userId = $user->id;
+            $userDetail->forename = $user->forename;
+            $userDetail->surname = $user->surname;
+        }
+
+        $securityForm = new SecurityForm();
+        return $this->render('../setting/update', [
+            'userDetail' => $userDetail,
+            'securityForm' => $securityForm,
         ]);
     }
 
@@ -110,6 +148,13 @@ class AccountController extends Controller
                 $submittedModel->bio =  ' ';
                 $submittedModel->website =  ' ';
 
+                [
+                    [
+                        'allow' => true,
+                        'actions' => ['actionUserUpdate'],
+                        'roles' => ['@'],
+                    ],
+                ]
                 // Not sure why but the bio isn't been added to the update statement executed by ActiveRecord
                 // Saving the record twice seems to do the trick
                 $submittedModel->save(false);
@@ -122,6 +167,13 @@ class AccountController extends Controller
                     'isUpdated' => true,
                 ]);
             } else {
+                [
+                    [
+                        'allow' => true,
+                        'actions' => ['actionUserUpdate'],
+                        'roles' => ['@'],
+                    ],
+                ]
                 return $this->render('update', [
                     'model' => $account,
                 ]);
