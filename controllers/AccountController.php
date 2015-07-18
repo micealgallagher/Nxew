@@ -48,10 +48,10 @@ class AccountController extends Controller
                         }
                     ],
                     [
-                        /*'allow' => true,
+                        'allow' => true,
                         'actions' => ['settings'],
                         'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
+                        /*'matchCallback' => function ($rule, $action) {
                             $id = Yii::$app->request->getQueryParam('id');
 
                             $account = Account::findOne(['id' => $id]);
