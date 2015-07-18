@@ -8,6 +8,10 @@ thead {
     background-color: #101010;
 }
 
+div#w0-collapse{
+    padding-top: 30px;
+}
+
 .table-striped > tbody > tr:nth-of-type(even) {
     background-color: #e5e5e5;
 }

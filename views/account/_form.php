@@ -36,7 +36,12 @@ use yii\widgets\ActiveForm;
 
                 <div class="form-group">
 
-                    <?=  Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']); ?>
+                    <?php
+                        $options = ['class' => 'fa fa-floppy-o fa-1x'];
+                        $icon = Html::tag('i', '', $options);
+
+                        echo Html::submitButton($icon, ['class' => 'pull-right btn btn-primary']);
+                    ?>
 
                 </div>
 

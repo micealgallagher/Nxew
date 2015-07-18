@@ -17,14 +17,14 @@ $this->title = 'View Account';
         <div class="col-md-4 col-lg-4 col-sm-5">
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title" style="vertical-align: middle; height: 30px">
+                    <h3 class="panel-title" style="height: 30px">
                         <?= Html::encode($user->getFullName()) ?>
                         <?php
 
                             $options = ['class' => 'btn btn-default pull-right fa fa-cog fa-1x'];
                             $icon = Html::tag('i', '', $options);
 
-                            echo Html::a($icon,     ['/account/settings', 'id' => $account->user_id]);
+                            echo Html::a($icon, ['/account/settings', 'id' => $account->user_id]);
                         ?>
                     </h3>
                 </div>
@@ -58,7 +58,12 @@ $this->title = 'View Account';
                         }
                     ?>
                     <div class="form-group">
-                        <?= Html::a('Edit', ['/account/update', 'id' => $account->id], ['class'=>'btn btn-success']) ?>
+                        <?php
+                            $options = ['class' => 'fa fa-pencil fa-1x'];
+                            $icon = Html::tag('i', '', $options);
+                            echo Html::a($icon, ['/account/update', 'id' => $account->id], ['class'=>'btn btn-success pull-right '])
+                        ?>
+
                     </div>
                 </div>
             </div>
@@ -66,8 +71,38 @@ $this->title = 'View Account';
         <div class="col-md-8 col-lg-8 col-sm-7">
             <div class="panel panel-success">
             <div class="panel-heading">
-                <h3 class="panel-title">
+                <h3 class="panel-title" style="height: 30px">
                     Playlist
+                    <div class="dropdown pull-right">
+                        <button class="btn btn-success dropdown-toggle" type="button" id="addSoundCloudTrack" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <i class="fa fa-plus fa-1x"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="addSoundCloudTrack" style="padding: 20px">
+                            <li>
+                                <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                                <div class="input-group">
+
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-soundcloud"></i>
+                                        </span>
+                                        <input type="text" class="form-control" placeholder="SoundCloud URL" aria-label="Amount (to the nearest dollar)" style="height: 48px; width: 300px" />
+                                        <span class="input-group-btn">
+                                            <?php $options = ['class' => 'fa fa-pencil'] ?>
+                                            <?= $icon = Html::tag('i', '', $options) ?>
+                                            <?= Html::a($icon, ['/playlist/add', ['id' => $account->id, 'url' => Html::encode('')]], ['class'=>'btn btn-success', 'style' => 'height: 48px; width: 48px; padding-top: 25%']) ?>
+
+                                        </span>
+                                    </div>
+                                    <div class="input-group-btn">
+
+                                    </div>
+
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </h3>
             </div>
             <div class="panel-body playlist-container">

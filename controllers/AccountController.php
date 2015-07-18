@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\AddTrackSoundCloudForm;
 use app\models\SecurityForm;
 use app\models\User;
 use app\models\UserDetail;
@@ -51,15 +52,11 @@ class AccountController extends Controller
                         'allow' => true,
                         'actions' => ['settings'],
                         'roles' => ['@'],
-                        /*'matchCallback' => function ($rule, $action) {
+                        'matchCallback' => function ($rule, $action) {
                             $id = Yii::$app->request->getQueryParam('id');
 
-                            $account = Account::findOne(['id' => $id]);
-
-                            Yii::info('MGDEV - IN THE RULE id is ' . isset($account) );
-
-                            return $account->user_id == 666;
-                        }*/
+                            return $id == Yii::$app->getUser()->id;
+                        }
                     ]
                 ],
             ],
@@ -112,12 +109,14 @@ class AccountController extends Controller
     {
         $id = Yii::$app->getUser()->id;
         $account = Account::findOne(['user_id' => $id]);
+        $addSoundCloud = new AddTrackSoundCloudForm();
         if ( isset($account) ) {
             $user = User::findOne(['id' => $id ]);
 
             return $this->render('view', [
                 'account' => $account,
                 'user' => $user,
+                'addSoundCloud' => $addSoundCloud,
             ]);
         } else {
             $account = new Account();
@@ -127,6 +126,7 @@ class AccountController extends Controller
             return $this->render('create', [
                 'model' => $account,
                 'user' => $user,
+                'addSoundCloud' => $addSoundCloud,
             ]);
         }
 
