@@ -12,6 +12,7 @@ use app\common\Constant;
 class AddTrackSoundCloudForm extends Model
 {
     public $url;
+    public $accountId;
 
     /**
      * @return array the validation rules.

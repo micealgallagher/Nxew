@@ -205,7 +205,7 @@ class UserController extends Controller
                 Yii::info('MGDEV - rendering the update with id: ' . $model->email);
                 return $this->render('update', [
                     'model' => $model,
-                ]);print_r($errors);
+                ]);
             }
         }
 

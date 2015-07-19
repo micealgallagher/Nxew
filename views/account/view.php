@@ -1,8 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
-use yii\widgets\ActiveForm;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
@@ -37,7 +36,7 @@ $this->title = 'View Account';
 
                             if (strlen($account->website) > 0) {
                                 $options = ['class' => 'fa fa-home fa-3x social-icon'];
-                                $icon = Html::tag('i', '', $options);
+                                $icon = Html::tag('i', '', $options);ii::app()->request->getParam('delete');
 
                                 echo Html::a($icon, $account->website);
                             }
@@ -53,7 +52,7 @@ $this->title = 'View Account';
                                 $options = ['class' => 'fa fa-facebook-square fa-3x social-icon'];
                                 $icon = Html::tag('i', '', $options);
 
-                                echo Html::a($icon, $account->facebook);
+                                echo Html::a($icon, $account->facebook);ii::app()->request->getParam('delete');
                             }
                         }
                     ?>
@@ -73,24 +72,25 @@ $this->title = 'View Account';
             <div class="panel-heading">
                 <h3 class="panel-title" style="height: 30px">
                     Playlist
-                    <div class="dropdown pull-right">
+                    <div id="divAddSoundCloudDropDown" class="dropdown pull-right">
                         <button class="btn btn-success dropdown-toggle" type="button" id="addSoundCloudTrack" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <i class="fa fa-plus fa-1x"></i>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="addSoundCloudTrack" style="padding: 20px">
+                                    <div id="divSoundCouldUrl" style="display:none" class="alert alert-danger" role="alert"></div>
                             <li>
                                 <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
                                 <div class="input-group">
-
                                     <div class="input-group">
                                         <span class="input-group-addon">
                                             <i class="fa fa-soundcloud"></i>
                                         </span>
-                                        <input type="text" class="form-control" placeholder="SoundCloud URL" aria-label="Amount (to the nearest dollar)" style="height: 48px; width: 300px" />
+                                        <input type="text" id="txtSoundCloudURL" class="form-control" placeholder="SoundCloud URL" aria-label="Amount (to the nearest dollar)" style="height: 48px; width: 300px" />
                                         <span class="input-group-btn">
                                             <?php $options = ['class' => 'fa fa-pencil'] ?>
                                             <?= $icon = Html::tag('i', '', $options) ?>
-                                            <?= Html::a($icon, ['/playlist/add', ['id' => $account->id, 'url' => Html::encode('')]], ['class'=>'btn btn-success', 'style' => 'height: 48px; width: 48px; padding-top: 25%']) ?>
+                                            <?= Html::script('var addToPlaylistUrl = \'' . Url::toRoute('playlist/add') . '\'') ?>
+                                            <?= Html::a($icon, '', ['onclick' => 'return resolveAndSubmitSCUrl(' . $account->id . ')', 'class'=>'btn btn-success', 'style' => 'height: 48px; width: 48px; padding-top: 25%']) ?>
 
                                         </span>
                                     </div>

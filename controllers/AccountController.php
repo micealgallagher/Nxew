@@ -107,6 +107,7 @@ class AccountController extends Controller
      */
     public function actionView()
     {
+        Yii::info('MGDEV - ActionController called ');
         $id = Yii::$app->getUser()->id;
         $account = Account::findOne(['user_id' => $id]);
         $addSoundCloud = new AddTrackSoundCloudForm();

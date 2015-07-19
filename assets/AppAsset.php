@@ -22,6 +22,8 @@ class AppAsset extends AssetBundle
         'css/font-awesome.min.css',
     ];
     public $js = [
+        '//connect.soundcloud.com/sdk-2.0.0.js',
+        'js/sound-cloud.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
