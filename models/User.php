@@ -156,8 +156,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
                 $password = Yii::$app->security->generateRandomString(8);
                 Yii::info('Username: ' . $this->username . ' | Password: ' . $password);
 
-
-
                 $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash('miceal');
 
                 $this->auth_key = Yii::$app->security->generateRandomString();

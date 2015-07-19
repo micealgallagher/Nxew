@@ -69,9 +69,10 @@ class LoginForm extends Model
             Yii::info('MGDEV : we are about to validate the password!');
             //if (Yii::$app->security->validatePassword($this->password, $user->password_hash)) {
             //if (Yii::$app->security->validatePassword('miceal', '$2y$13$CqmT.GsjGmlpatsz3TAuCOjen1dOrjLr0bOz8RHHXPA4Z03vdzYKG')) {
-            Yii::info('MGDEV : Password validated!!!');
+            Yii::info('MGDEV : Password validated!!! Will I remember: ' . $this->rememberMe);
             $this->type = $user->type;
-            return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
+            Yii::$app->user->enableSession = true;
+            return Yii::$app->user->login($user, 5 * 60);
             //}
         }/*}else {
             Yii::info('MGDEV : validation failed!');

@@ -87,11 +87,10 @@ $this->title = 'View Account';
                                         </span>
                                         <input type="text" id="txtSoundCloudURL" class="form-control" placeholder="SoundCloud URL" aria-label="Amount (to the nearest dollar)" style="height: 48px; width: 300px" />
                                         <span class="input-group-btn">
-                                            <?php $options = ['class' => 'fa fa-pencil'] ?>
+                                            <?php $options = ['class' => 'fa fa-floppy-o'] ?>
                                             <?= $icon = Html::tag('i', '', $options) ?>
                                             <?= Html::script('var addToPlaylistUrl = \'' . Url::toRoute('playlist/add') . '\'') ?>
                                             <?= Html::a($icon, '', ['onclick' => 'return resolveAndSubmitSCUrl(' . $account->id . ')', 'class'=>'btn btn-success', 'style' => 'height: 48px; width: 48px; padding-top: 25%']) ?>
-
                                         </span>
                                     </div>
                                     <div class="input-group-btn">
