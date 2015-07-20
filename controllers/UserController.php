@@ -136,11 +136,7 @@ class UserController extends Controller
             $account = Account::findOne(['user_id' => $user->id]);
         }
 
-        return $this->redirect(['account/view']);/*
-        return $this->render('../account/view', [
-            'user' => $user,
-            'account' => $account,
-        ]);*/
+        return $this->redirect(['account/view']);
     }
 
     public function actionUserPasswordReset() {
