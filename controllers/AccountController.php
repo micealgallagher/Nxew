@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\AddTrackSoundCloudForm;
+use app\models\PlaylistTrack;
 use app\models\SecurityForm;
 use app\models\User;
 use app\models\UserDetail;
@@ -13,6 +14,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use app\common\Constant;
 
 /**
  * AccountController implements the CRUD actions for Account model.
@@ -114,10 +116,17 @@ class AccountController extends Controller
         if ( isset($account) ) {
             $user = User::findOne(['id' => $id ]);
 
+            $playlistTracks = PlaylistTrack::findAll(['account_id' => $account->id]);
+            Yii::info('MGDEV - Number of tracks for account ' . $account->id . ' is '  . sizeof($playlistTracks));
+
+            $maxNumberOfTracksReached = sizeof($playlistTracks) >= Constant::MAX_NUMBER_OF_TRACKS;
+
             return $this->render('view', [
                 'account' => $account,
                 'user' => $user,
                 'addSoundCloud' => $addSoundCloud,
+                'playlistTracks' => $playlistTracks,
+                'maxNumberOfTracksReached' => $maxNumberOfTracksReached,
             ]);
         } else {
             $account = new Account();
@@ -171,7 +180,7 @@ class AccountController extends Controller
                 [
                     [
                         'allow' => true,
-                        'actions' => ['actionUserUpdate'],
+                        'actions' => ['actionUserUpdate'],Close
                         'roles' => ['@'],
                     ],
                 ]

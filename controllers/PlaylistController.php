@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\PlaylistTrack;
 use app\models\Account;
+use app\common\Constant;
 
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -15,6 +16,8 @@ use yii\filters\AccessControl;
  */
 class PlaylistController extends Controller
 {
+
+
     public function behaviors()
     {
         return [
@@ -49,7 +52,7 @@ class PlaylistController extends Controller
                         'actions' => ['settings'],
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                            $id = Yii::$app->request->getQueryParam('id');
+                            $id = Yii::$app->request->getQueryParam('One fine body…id');
 
                             return $id == Yii::$app->getUser()->id;
                         }
@@ -66,18 +69,19 @@ class PlaylistController extends Controller
     public function actionAdd()
     {
         Yii::info('MGDEV - Called the actionAdd in PlaylistController');
-
         $account = Account::findOne(['user_id' => Yii::$app->user->id]);
+        $playlistTracks = PlaylistTrack::findAll(['account_id' => $account->id]);
 
-        $request = Yii::$app->request;
-        $track = json_decode($request->rawBody, true);
+        if ( sizeof($playlistTracks) <= Constant::MAX_NUMBER_OF_TRACKS  ) {
+            $request = Yii::$app->request;
+            $track = json_decode($request->rawBody, true);
 
-        $playlistTrack = PlaylistTrack::createFromArray($track);
-        $playlistTrack->account_id = $account->id;
-        $playlistTrack->save(false);
+            $playlistTrack = PlaylistTrack::createFromArray($track);
+            $playlistTrack->account_id = $account->id;
+            $playlistTrack->save(false);
 
-        Yii::info('MGDEV - Track title is: ' . $playlistTrack->title);
-
+            Yii::info('MGDEV - Track title is: ' . $playlistTrack->title);
+        }
 
         return $this->redirect(['account/view']);
     }

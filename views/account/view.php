@@ -73,54 +73,124 @@ $this->title = 'View Account';
                 <h3 class="panel-title" style="height: 30px">
                     Playlist
                     <div id="divAddSoundCloudDropDown" class="dropdown pull-right">
-                        <button class="btn btn-success dropdown-toggle" type="button" id="addSoundCloudTrack" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <i class="fa fa-plus fa-1x"></i>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="addSoundCloudTrack" style="padding: 20px">
+
+                        <?php
+
+                            if ( isset($maxNumberOfTracksReached) && $maxNumberOfTracksReached ) {
+
+
+                                $buttonOptions = ['class' => 'btn btn-primary', 'data-toggle' => 'modal', 'data-target' => '.bs-example-modal-sm'];
+                                $iconOptions = ['class' => 'fa fa-plus fa-1x'];
+                                $icon = Html::tag('i', '', $iconOptions);
+
+                                echo Html::button($icon, $buttonOptions);
+                            } else {
+                                ?>
+
+                                <button class="btn btn-success dropdown-toggle" type="button" id="addSoundCloudTrack" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <i class="fa fa-plus fa-1x"></i>
+                                </button>
+
+                                <ul class="dropdown-menu" aria-labelledby="addSoundCloudTrack" style="padding: 20px">
                                     <div id="divSoundCouldUrl" style="display:none" class="alert alert-danger" role="alert"></div>
-                            <li>
-                                <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
-                                <div class="input-group">
-                                    <div class="input-group">
+                                    <li>
+                                        <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                                        <div class="input-group">
+                                            <div class="input-group">
                                         <span class="input-group-addon">
                                             <i class="fa fa-soundcloud"></i>
                                         </span>
-                                        <input type="text" id="txtSoundCloudURL" class="form-control" placeholder="SoundCloud URL" aria-label="Amount (to the nearest dollar)" style="height: 48px; width: 300px" />
+                                                <input type="text" id="txtSoundCloudURL" class="form-control" placeholder="SoundCloud URL" aria-label="Amount (to the nearest dollar)" style="height: 48px; width: 300px" />
                                         <span class="input-group-btn">
                                             <?php $options = ['class' => 'fa fa-floppy-o'] ?>
                                             <?= $icon = Html::tag('i', '', $options) ?>
                                             <?= Html::script('var addToPlaylistUrl = \'' . Url::toRoute('playlist/add') . '\'') ?>
                                             <?= Html::a($icon, '', ['onclick' => 'return resolveAndSubmitSCUrl(' . $account->id . ')', 'class'=>'btn btn-success', 'style' => 'height: 48px; width: 48px; padding-top: 25%']) ?>
                                         </span>
-                                    </div>
-                                    <div class="input-group-btn">
+                                            </div>
+                                            <div class="input-group-btn">
 
-                                    </div>
+                                            </div>
 
 
-                                </div>
-                            </li>
-                        </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            <?php
+                            }
+                            ?>
+
+                        <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Cannot add track</button>-->
+
+
+
                     </div>
                 </h3>
             </div>
             <div class="panel-body playlist-container">
-                <div class="panel panel-default playlist-track">
-                    <div class="panel-body">
-                        <strong>Pushit</strong>
-                        <p>
-                            Tool - Lateralus
-                        </p>
-                    </div>
+                <?php
+                    if ( isset($playlistTracks) && sizeof($playlistTracks) > 0) {
+                        foreach ( $playlistTracks as $track ) {
+                            $artworkUrl = $track->artwork_url;
+                            $title = $track->title;
+                            $genre = $track->genre;
+
+                ?>
+
+                            <div class="panel panel-default playlist-track">
+                                <div class="panel-body" style="padding: 0px">
+                                    <div class="row">
+                                        <div class="col-md-2 col-lg-2 col-sm-4, col-xs-2" style="padding-top: 0px">
+                                            <?= Html::img($artworkUrl) ?>
+                                        </div>
+                                        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10" style="padding: 25px">
+                                            <?= Html::tag('strong', $title) ?>
+                                            <?= Html::tag('p', $genre) ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        <!--<div class="panel panel-default playlist-track">
+                            <div class="panel-body">
+                                <strong>21st Century Schizoid Man</strong>
+                                <p>
+                                    King Crimson
+                                </p>
+                            </div>
+                        </div>-->
+                <?php
+                        }
+                    } else {
+                        echo '<div id="divSoundCouldUrl" style="margin:20px" class="alert alert-info" role="alert">';
+                            echo ':( where is the music?';
+                        echo '</div>';
+
+                    }
+                ?>
+
+            </div>
+
+                <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" style="display: none;">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                <h4 class="modal-title" id="mySmallModalLabel">No more tracks for you!</h4>
+                            </div>
+                            <div class="modal-body">
+                                <?= 'Sorry, but you are not allowed to add any more than ' . sizeof($playlistTracks) . ' tracks' ?>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">:( OK</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
                 </div>
-                <div class="panel panel-default playlist-track">
-                    <div class="panel-body">
-                        <strong>21st Century Schizoid Man</strong>
-                        <p>
-                            King Crimson
-                        </p>
-                    </div>
-                </div>
+
+
             </div>
         </div>
     </div>

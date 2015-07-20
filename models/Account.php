@@ -101,6 +101,10 @@ class Account extends \yii\db\ActiveRecord
         return true;
     }*/
 
+    public function numOfPlaylistTracks() {
+        return $this->findBySql('select count(*) from playlist_track where account_id = ' . $this->id);
+    }
+
     public function hasBioChanged($bio) {
         return strcmp($bio, $this->bio) != 0;
     }
