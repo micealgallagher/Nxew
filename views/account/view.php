@@ -181,7 +181,7 @@ $this->title = 'View Account';
                                 <h4 class="modal-title" id="mySmallModalLabel">No more tracks for you!</h4>
                             </div>
                             <div class="modal-body">
-                                <?= 'Sorry, but you are not allowed to add any more than ' . sizeof($playlistTracks) . ' tracks' ?>
+                                <?= 'Sorry, but you are not allowed to add any more than ' . (isset($playlistTracks) ? sizeof($playlistTracks) : -1) . ' tracks' ?>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">:( OK</button>
