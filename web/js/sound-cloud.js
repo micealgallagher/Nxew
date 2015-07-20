@@ -42,7 +42,7 @@ function resolveAndSubmitSCUrl(id) {
                                 type:"POST",
                             dataType: "json",
                             url: addToPlaylistUrl,
-                            data: track,
+                            data: JSON.stringify(track),
                             contentType: "application/json; charset=utf-8",
                             success: function(data){
                                 alert('Items added');

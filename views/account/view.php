@@ -36,7 +36,7 @@ $this->title = 'View Account';
 
                             if (strlen($account->website) > 0) {
                                 $options = ['class' => 'fa fa-home fa-3x social-icon'];
-                                $icon = Html::tag('i', '', $options);ii::app()->request->getParam('delete');
+                                $icon = Html::tag('i', '', $options);
 
                                 echo Html::a($icon, $account->website);
                             }
@@ -52,7 +52,7 @@ $this->title = 'View Account';
                                 $options = ['class' => 'fa fa-facebook-square fa-3x social-icon'];
                                 $icon = Html::tag('i', '', $options);
 
-                                echo Html::a($icon, $account->facebook);ii::app()->request->getParam('delete');
+                                echo Html::a($icon, $account->facebook);
                             }
                         }
                     ?>

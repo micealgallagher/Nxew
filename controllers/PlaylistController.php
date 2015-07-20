@@ -3,12 +3,12 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\PlaylistTrack;
 use app\models\Account;
+
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use app\models\AddTrackSoundCloudForm;
-use yii\helpers\Html;
 
 /**
  * AccountController implements the CRUD actions for Account model.
@@ -67,28 +67,18 @@ class PlaylistController extends Controller
     {
         Yii::info('MGDEV - Called the actionAdd in PlaylistController');
 
+        $account = Account::findOne(['user_id' => Yii::$app->user->id]);
+
         $request = Yii::$app->request;
-        $soundCloudForm = new AddTrackSoundCloudForm();
-        $soundCloudForm->accountId = $request->get('id', -1);
-        $soundCloudForm->url = $request->get('track', '');
+        $track = json_decode($request->rawBody, true);
 
-        $jsonObj = json_decode($request->rawBody);
+        $playlistTrack = PlaylistTrack::createFromArray($track);
+        $playlistTrack->account_id = $account->id;
+        $playlistTrack->save(false);
 
-        Yii::info('MGDEV - Content type is ' . $request->getContentType());
-        Yii::info('MGDEV - Content type is ' . $request->rawBody);
-        //Yii::info('MGDEV - Content type is ' . $jsonObj->{'title'});
-
-        if ( isset($_REQUEST['track']) ) {
-            Yii::info('MGDEV - variable value is ' . $_POST['track']);
-        } else  {
-            Yii::info('MGDEV - variable not set');
-        }
-
-        //Yii::info('MGDEV - content: ' . Html::encode(print_r($_POST, true)));
-        //Yii::info('MGDEV - content: ' . $_POST['data']);
+        Yii::info('MGDEV - Track title is: ' . $playlistTrack->title);
 
 
-
-        return $this->redirect(['account/view', 'error' => $soundCloudForm]);
+        return $this->redirect(['account/view']);
     }
 }
