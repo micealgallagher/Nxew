@@ -16,6 +16,9 @@ div#w0-collapse{
     background-color: #e5e5e5;
 }
 
+.mini-connect {
+    display: none;
+}
 .home-page-buttons {
     min-width: 165px;
 }

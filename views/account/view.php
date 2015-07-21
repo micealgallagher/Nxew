@@ -130,10 +130,13 @@ $this->title = 'View Account';
             <div class="panel-body playlist-container">
                 <?php
                     if ( isset($playlistTracks) && sizeof($playlistTracks) > 0) {
+                        $trackUrls = '';
                         foreach ( $playlistTracks as $track ) {
                             $artworkUrl = $track->artwork_url;
                             $title = $track->title;
                             $genre = $track->genre;
+
+                            $trackUrls .= '"' . $track->permalink_uri . '",';
 
                 ?>
 
@@ -161,6 +164,10 @@ $this->title = 'View Account';
                             </div>
                         </div>-->
                 <?php
+                        }
+
+                        if ( isset($trackUrls) ) {
+                            echo Html::script('var trackUrls = [' . $trackUrls . ']');
                         }
                     } else {
                         echo '<div id="divSoundCouldUrl" style="margin:20px" class="alert alert-info" role="alert">';
