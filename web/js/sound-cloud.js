@@ -18,14 +18,16 @@ function resolveAndSubmitSCUrl(id) {
     } else {
         SC.get('/resolve', { url: track_url }, function(track, error) {
 
-            if (error) {
+            if (error || null === error) {
 
-                if ( "404 - Not Found" == error.message || "HTTP Error: 0" == error.message ) {
-                    divSoundCouldUrl.html(errorIcon + " Invalid Url");
+                var errorMessage = null == error ? "" : error.message;
+
+                if ( "404 - Not Found" == errorMessage || "HTTP Error: 0" == errorMessage || "" == errorMessage) {
+                    divSoundCouldUrl.html(errorIcon + " Invalid track Url");
                     divSoundCouldUrl.show();
                 }
 
-                console.log('Someone said: ' + error.message);
+                console.log('Someone said: ' + errorMessage);
                 return false;
             } else {
                 console.log('Track id: ' + track.id);
