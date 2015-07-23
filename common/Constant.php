@@ -7,6 +7,8 @@
 
 namespace app\common;
 
+use yii\BaseYii;
+
 class Constant
 {
 	const USER_TYPE = 'user.type';
@@ -14,4 +16,5 @@ class Constant
 	const USER_TYPE_USER = 'User';
 	const URL_PREFIX = "http://";
 	const MAX_NUMBER_OF_TRACKS = 15;
+	const DEFAULT_COVERART_URL = '\img\noartwork.png';
 }

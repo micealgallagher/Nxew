@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\common\Constant;
 use Yii;
 
 /**
@@ -83,6 +84,20 @@ class PlaylistTrack extends \yii\db\ActiveRecord
         $newPlaylistTrack->user_avatar_url = $track['user']['avatar_url'];
 
         return $newPlaylistTrack;
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            
+            if ( empty($this->artwork_url) ) {
+                $this->artwork_url = Yii::$app->urlManager->baseUrl . Constant::DEFAULT_COVERART_URL;
+            }
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
