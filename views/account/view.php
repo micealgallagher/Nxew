@@ -94,13 +94,12 @@ $this->title = 'View Account';
                                 <ul class="dropdown-menu" aria-labelledby="addSoundCloudTrack" style="padding: 20px">
                                     <div id="divSoundCouldUrl" style="display:none" class="alert alert-danger" role="alert"></div>
                                     <li>
-                                        <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
                                         <div class="input-group">
                                             <div class="input-group">
                                         <span class="input-group-addon">
                                             <i class="fa fa-soundcloud"></i>
                                         </span>
-                                                <input type="text" id="txtSoundCloudURL" class="form-control" placeholder="SoundCloud URL" aria-label="Amount (to the nearest dollar)" style="height: 48px; width: 300px" />
+                                                <input type="text" id="txtSoundCloudURL" class="form-control" placeholder="SoundCloud Track URL" style="height: 48px; width: 300px" />
                                         <span class="input-group-btn">
                                             <?php $options = ['class' => 'fa fa-floppy-o'] ?>
                                             <?= $icon = Html::tag('i', '', $options) ?>
@@ -146,11 +145,24 @@ $this->title = 'View Account';
                                         <div class="col-md-2 col-lg-2 col-sm-4, col-xs-2" style="padding-top: 0px">
                                             <?= Html::img($artworkUrl) ?>
                                         </div>
-                                        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10" style="padding: 25px">
-                                            <?= Html::tag('strong', $title) ?>
-                                            <?= Html::tag('p', $genre) ?>
+                                        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10" style="padding-left: 30px; padding-top: 5px;">
+                                            <div class="row">
+                                                <?= Html::tag('strong', $title) ?>
+                                                <?= Html::tag('p', $genre) ?>
+                                            </div>
+                                            <div id="trackControls" class="row">
+                                                <i class="fa fa-play-circle fa-2x"></i>
+                                                <i class="fa fa-pause fa-2x"></i>
+                                                <i class="fa fa-stop fa-2x"></i>
+                                                <i class="trackLikeUp fa fa-thumbs-up fa-2x"></i>
+                                                <i class="trackLikeDown fa fa-thumbs-down fa-2x"></i>
+                                                <i class="trackSoundCloudProfile fa fa-soundcloud fa-2x"></i>
+                                                <i class="trackDownload fa fa-download fa-2x"></i>
+                                                <i class="fa fa-trash-o fa-2x pull-right" style="padding-right:36px"></i>
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
 

@@ -16,11 +16,11 @@ function resolveAndSubmitSCUrl(id) {
 
         return false;
     } else {
-        SC.get('/resolve', { url: track_url }, function(track, error) {
+        SC.get('/resolve', { url: track_url }, function(track, resolveError) {
 
-            if (error || null === error) {
+            if (resolveError) {
 
-                var errorMessage = null == error ? "" : error.message;
+                var errorMessage = null == resolveError ? "" : resolveError.message;
 
                 if ( "404 - Not Found" == errorMessage || "HTTP Error: 0" == errorMessage || "" == errorMessage) {
                     divSoundCouldUrl.html(errorIcon + " Invalid track Url");
@@ -31,10 +31,12 @@ function resolveAndSubmitSCUrl(id) {
                 return false;
             } else {
                 console.log('Track id: ' + track.id);
-                SC.get('/tracks/' + track.id, function(track, error) {
+                SC.get('/tracks/' + track.id, function(track, trackError) {
 
-                    if (error) {
-                        alert('Error: ' + error.message);
+                    if (trackError) {
+                        var errorMessage = null == error ? "" : trackError.message;
+                        divSoundCouldUrl.html(errorIcon + " Invalid track Url");
+                        divSoundCouldUrl.show();
                     } else {
                         console.log('Someone said: ' + track);
                         //window.location = "index.php?r=playlist/add&id=" + id + "&url=" + track.uri;

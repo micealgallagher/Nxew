@@ -1,6 +1,7 @@
 html,
 body {
     height: 100%;
+    margin: 0px;
   color: black;
 }
 
@@ -21,6 +22,19 @@ div#w0-collapse{
 }
 .home-page-buttons {
     min-width: 165px;
+}
+
+div#trackControls i :hover{
+    color: grey;
+    padding-right: 15px;
+}
+
+.trackLikeUp {
+    padding-left: 30px;
+}
+
+.trackSoundCloudProfile, .trackDownload {
+     padding-left: 30px;
 }
 
 .title-bottom-padding {
