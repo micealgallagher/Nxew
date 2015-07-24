@@ -177,20 +177,20 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $user = $this->findModel($id);
 
         if(isset($_POST['reset-password'])) {
-            $password = $model->resetPassword();
-            $model->save();
+            $user->resetPassword();
+            $user->save();
 
-            Yii::$app->mailer->compose('contact/password-reset', ['password' => $password])
+            $hasEmailBeenSent = Yii::$app->mailer->compose('contact/password-reset', ['user' => $user])
                 ->setFrom('password-reset@nxew.ca')
                 ->setTo('me@mehaul.me')
-                ->setSubject('Test')
+                ->setSubject('Nxew - Password Reset')
                 ->send();
 
             return $this->render('update', [
-                'model' => $model,
+                'model' => $user,
                 'isPasswordReset' => true,
             ]);
         } else {

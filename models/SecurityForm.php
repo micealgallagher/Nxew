@@ -13,6 +13,7 @@ class SecurityForm extends Model
     public $currentPassword;
     public $newPassword;
     public $newPasswordAgain;
+    public $token;
 
     /**
      * @return array the validation rules.

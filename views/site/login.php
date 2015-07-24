@@ -9,6 +9,22 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Login';
 ?>
 
+<?php
+if ( isset($passwordReset) ? $passwordReset : false ) {
+?>
+    <div class="row">
+        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+            <?php
+                $options = ['class' =>'alert alert-success'];
+                echo Html::tag('div', '<strong>Updated!</strong> Password updated successfully.', $options);
+            ?>
+        </div>
+    </div>
+<?php
+}
+?>
+
+
 <div class="row center-block" >
     <div class="col-xs-4 col-xs-offset-4 col-lg-4 col-lg-offset-4">
         <div class="panel panel-default">

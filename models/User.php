@@ -123,15 +123,15 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     public function resetPassword() {
-        $password = Yii::$app->security->generateRandomString(8);
-        $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash(/*$password*/'miceal');
+        $passwordResetHash = Yii::$app->security->generateRandomString();
+        $this->password_reset_token = $passwordResetHash;
 
-        Yii::info('Username: ' . $this->username . ' | Password: ' . $password);
-        return $password;
+        return $passwordResetHash;
     }
 
     public function updatePassword($password) {
         $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
+        $this->password_reset_token = '';
 
         Yii::info('MGDEV - User has manually updated password to ' . $password );
         $this->save(false);
