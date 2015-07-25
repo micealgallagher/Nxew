@@ -91,14 +91,7 @@ AppAsset::register($this);
 
         <div class="container">
             <?= $content ?>
-            <script>
-                ToneDen.player.create({
-                    dom: "#player",
-                    urls: [
-                        "https://soundcloud.com/flume/sintra"
-                    ]
-                });
-            </script>
+
         </div>
     </div>
 
@@ -110,26 +103,19 @@ AppAsset::register($this);
     <?php $this->endBody() ?>
     <script>
         (function() {
-            var script = document.createElement("script");
 
-            script.type = "text/javascript";
-            script.async = true;
-            script.src = "//sd.toneden.io/production/toneden.loader.js"
-
-            var entry = document.getElementsByTagName("script")[0];
-            entry.parentNode.insertBefore(script, entry);
         }());
 
         ToneDenReady = window.ToneDenReady || [];
         ToneDenReady.push(function() {
             // This is where all the action happens:
             ToneDen.player.create({
-                dom: "#player",
-                eq: "waves",
-                skin: "dark",
-                mini: true,
-                urls: trackUrls,
-                consumerKey: '2a737f2852f3179c6a875807412249ce'
+                    dom: "#player",
+                    eq: "waves",
+                    skin: "dark",
+                    mini: true,
+                    urls: trackUrls,
+                    debug: true,
             });
         });
     </script>

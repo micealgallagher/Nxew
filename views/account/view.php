@@ -137,9 +137,11 @@ $this->title = 'View Account';
                 <?php
                     if ( isset($playlistTracks) && sizeof($playlistTracks) > 0) {
                         $trackUrls = '';
+                        $trackIndex = 0;
                         foreach ( $playlistTracks as $track ) {
                             $artworkUrl = $track->artwork_url;
                             $title = $track->title;
+                            $user = $track->user_username;
                             $genre = $track->genre;
 
                             $trackUrls .= '"' . $track->permalink_uri . '",';
@@ -147,7 +149,7 @@ $this->title = 'View Account';
                 ?>
 
                             <div class="panel panel-default playlist-track">
-                                <div class="panel-body" style="padding: 0px">
+                                <div class="panel-body track-container-<?= $trackIndex?>" style="padding: 0px">
                                     <div class="row">
                                         <div class="col-md-2 col-lg-2 col-sm-4, col-xs-2" style="padding-top: 0px">
                                             <?= Html::img($artworkUrl) ?>
@@ -155,12 +157,11 @@ $this->title = 'View Account';
                                         <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10" style="padding-left: 30px; padding-top: 5px;">
                                             <div class="row">
                                                 <?= Html::tag('strong', $title) ?>
-                                                <?= Html::tag('p', $genre) ?>
+                                                <?= Html::tag('p', $user) ?>
                                             </div>
-                                            <div id="trackControls" class="row">
-                                                <i class="fa fa-play-circle fa-2x"></i>
-                                                <i class="fa fa-pause fa-2x"></i>
-                                                <i class="fa fa-stop fa-2x"></i>
+                                            <div id="track-controls" class="row">
+                                                <i class="fa fa-play-circle fa-2x control-hover" track-index="<?= $trackIndex++ ?>"></i>
+                                                <i class="track-pause fa fa-pause fa-2x"></i>
                                                 <i class="trackLikeUp fa fa-thumbs-up fa-2x"></i>
                                                 <i class="trackLikeDown fa fa-thumbs-down fa-2x"></i>
                                                 <i class="trackSoundCloudProfile fa fa-soundcloud fa-2x"></i>

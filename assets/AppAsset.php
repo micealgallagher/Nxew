@@ -24,7 +24,8 @@ class AppAsset extends AssetBundle
     public $js = [
         '//connect.soundcloud.com/sdk-2.0.0.js',
         'js/sound-cloud.js',
-        'js/playlist.js'
+        'js/playlist.js',
+        'toneden/toneden.loader.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

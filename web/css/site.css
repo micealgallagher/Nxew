@@ -24,9 +24,24 @@ div#w0-collapse{
     min-width: 165px;
 }
 
-div#trackControls i :hover{
-    color: grey;
-    padding-right: 15px;
+#track-controls{
+    display:none;
+}
+
+div[class*='track-container']:hover #track-controls {
+    display:inherit;
+}
+
+i.track-pause {
+    display: none;
+}
+
+#track-controls i {
+    opacity:.8;
+}
+#track-controls i:hover {
+    cursor: pointer;
+    opacity:1;
 }
 
 .trackLikeUp {
@@ -50,7 +65,7 @@ div#trackControls i :hover{
 
 .playlist-track:hover {
     background-color: #f3f3f3;
-    cursor: pointer;
+
 }
 
 .playlist-container {
