@@ -16,6 +16,7 @@ use app\models\User;
  * @property string $website
  * @property string $facebook
  * @property string $twitter
+ * @property string $soundcloud
  *
  * @property User $user
  */
@@ -38,7 +39,7 @@ class Account extends \yii\db\ActiveRecord
             [['user_id', 'bio'], 'required'],
             [['user_id'], 'integer'],
             [['bio'], 'string'],
-            [['website', 'facebook', 'twitter'], 'url'],
+            [['website', 'facebook', 'twitter', 'soundcloud'], 'url'],
             [['user_id'], 'unique'],
         ];
     }
@@ -55,6 +56,7 @@ class Account extends \yii\db\ActiveRecord
             'website' => 'Website',
             'facebook' => 'Facebook',
             'twitter' => 'Twitter',
+            'soundcloud' => 'SoundCloud',
         ];
     }
 
@@ -82,9 +84,10 @@ class Account extends \yii\db\ActiveRecord
     }
 
     public function hasAnySocialItems() {
-        return strlen($this->website) > 0 ||
+        return  strlen($this->website) > 0 ||
                 strlen($this->facebook) > 0 ||
                 strlen($this->twitter) > 0;
+                strlen($this->soundcloud) > 0;
     }
 
     /*public  function beforeValidate() {

@@ -24,39 +24,31 @@ class PlaylistController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'delete' => ['get'],
                 ],
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'create', 'update', 'delete', 'settings'],
+                'only' => ['index', 'view', 'create', 'update', 'settings'],
                 'rules' => [
                     [
-                        'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
-                        'roles' => ['@'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['update', 'delete'],
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
-                            $id = Yii::app()->request->getParam('id', -1);
-                            $account = Account::findOne(['id' => $id]);
+                    'allow' => false,
+                    'actions' => ['delete'],
+                    'roles' => ['@'],
+                    'matchCallback' => function ($rule, $action) {
+                        Yii::info('MGDEV delete authentication');
+                        $accountId = Yii::$app->request->getQueryParam('accountId');
 
-                            return $account->user_id == Yii::$app->user->getId();
-                        }
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['settings'],
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
-                            $id = Yii::$app->request->getQueryParam('One fine body…id');
+                        Yii::info('MGDEV delete authentication - accountId: ' . $accountId);
 
-                            return $id == Yii::$app->getUser()->id;
-                        }
-                    ]
+                        $account = Account::findOne(['id' => $accountId]);
+                        $userId = $account->user_id;
+
+                        Yii::info('MGDEV delete authentication user id: : ' . $userId);
+
+                        return $userId == Yii::$app->getUser()->id;
+                    }
+                ]
                 ],
             ],
         ];
@@ -82,6 +74,15 @@ class PlaylistController extends Controller
 
             Yii::info('MGDEV - Track title is: ' . $playlistTrack->title);
         }
+
+        return $this->redirect(['account/view']);
+    }
+
+    public function actionDelete($accountId, $trackId)
+    {
+        Yii::info('MGDEV - Called the actionDelete in PlaylistController');
+        $account = Account::findOne(['user_id' => Yii::$app->user->id]);
+        PlaylistTrack::deleteAll(['id' => $trackId, 'account_id' => $accountId]);
 
         return $this->redirect(['account/view']);
     }

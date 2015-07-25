@@ -91,6 +91,10 @@ div#trackControls i :hover{
     font-style: italic;
 }
 
+.track-delete-icon {
+    padding-right:36px;
+}
+
 /* add sorting icons to gridview sort links */
 a.asc:after, a.desc:after {
     position: relative;

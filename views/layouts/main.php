@@ -128,7 +128,8 @@ AppAsset::register($this);
                 eq: "waves",
                 skin: "dark",
                 mini: true,
-                urls: trackUrls
+                urls: trackUrls,
+                consumerKey: '2a737f2852f3179c6a875807412249ce'
             });
         });
     </script>

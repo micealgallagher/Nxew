@@ -32,6 +32,7 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'website') ?>
                 <?= $form->field($model, 'facebook') ?>
                 <?= $form->field($model, 'twitter') ?>
+                <?= $form->field($model, 'soundcloud') ?>
 
 
                 <div class="form-group">

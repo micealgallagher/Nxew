@@ -54,6 +54,13 @@ $this->title = 'View Account';
 
                                 echo Html::a($icon, $account->facebook);
                             }
+
+                            if (strlen($account->soundcloud) > 0) {
+                                $options = ['class' => 'fa fa-soundcloud fa-3x social-icon'];
+                                $icon = Html::tag('i', '', $options);
+
+                                echo Html::a($icon, $account->soundcloud);
+                            }
                         }
                     ?>
                     <div class="form-group">
@@ -158,7 +165,13 @@ $this->title = 'View Account';
                                                 <i class="trackLikeDown fa fa-thumbs-down fa-2x"></i>
                                                 <i class="trackSoundCloudProfile fa fa-soundcloud fa-2x"></i>
                                                 <i class="trackDownload fa fa-download fa-2x"></i>
-                                                <i class="fa fa-trash-o fa-2x pull-right" style="padding-right:36px"></i>
+
+                                                <?php
+                                                    $options = ['class' => 'track-delete-icon fa fa-trash-o fa-2x pull-right'];
+                                                    $icon = Html::tag('i', '', $options);
+                                                    $href = Url::toRoute(['playlist/delete', 'accountId' => $account->id, 'trackId' => $track->id]);
+                                                    echo Html::a($icon, $href, ['class' => 'track-delete-link', 'track-title' => $track->title]);
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
@@ -208,6 +221,7 @@ $this->title = 'View Account';
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
                 </div>
+
 
 
             </div>

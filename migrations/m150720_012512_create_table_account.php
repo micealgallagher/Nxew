@@ -14,6 +14,7 @@ class m150720_012512_create_table_account extends Migration
             'website' => Schema::string(500),
             'facebook' => Schema::string(500),
             'twitter' => Schema::string(500),
+            'soundcloud' => Schema::string(500),
         ]);
     }
 

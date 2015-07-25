@@ -74,3 +74,9 @@ $('#divAddSoundCloudDropDown').on('hide.bs.dropdown', function () {
         return false;
     }
 })
+
+function removeTrackConfirmation() {
+    return confirm('Are you sure you would like to remove this track?')
+    return false;
+}
+
