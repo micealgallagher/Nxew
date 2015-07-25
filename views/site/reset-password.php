@@ -22,7 +22,6 @@ $this->title = 'New Password';
 
     $form = ActiveForm::begin(['id' => 'reset-password', 'action' => Yii::$app->getUrlManager()->createUrl(['site/reset-password', 'token' => $securityForm->token])]);
 
-    echo $form->field($securityForm, 'token')->hiddenInput();
     echo $form->field($securityForm, 'newPassword')->passwordInput();
     echo $form->field($securityForm, 'newPasswordAgain')->passwordInput();
 
