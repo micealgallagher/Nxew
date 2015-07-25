@@ -102,22 +102,26 @@ AppAsset::register($this);
 
     <?php $this->endBody() ?>
     <script>
-        (function() {
+        if ( trackUrls != undefined ) {
+            (function() {
 
-        }());
+            }());
 
-        ToneDenReady = window.ToneDenReady || [];
-        ToneDenReady.push(function() {
-            // This is where all the action happens:
-            ToneDen.player.create({
+            ToneDenReady = window.ToneDenReady || [];
+            ToneDenReady.push(function() {
+                // This is where all the action happens:
+                ToneDen.player.create({
                     dom: "#player",
                     eq: "waves",
                     skin: "dark",
                     mini: true,
                     urls: trackUrls,
                     debug: true,
+                });
             });
-        });
+        }
+
+
     </script>
     </body>
     </html>

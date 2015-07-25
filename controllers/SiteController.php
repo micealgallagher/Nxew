@@ -12,6 +12,9 @@ use app\models\AddUserForm;
 use app\models\ContactForm;
 use app\common\Constant;
 use app\models\User;
+use app\models\Account;
+use app\models\PlaylistTrack;
+
 
 
 class SiteController extends Controller
@@ -121,6 +124,21 @@ class SiteController extends Controller
 
         return $this->render('reset-password', [
             'securityForm' => $securityForm,
+        ]);
+    }
+
+    public function actionRandomPlaylist() {
+
+        $id = Yii::$app->getUser()->id;
+        $account = Account::findRandom();
+        $user = User::findOne(['id' => $id]);
+        $playlistTracks = PlaylistTrack::findAll(['account_id' => $account->id]);
+
+
+        return $this->render('random-playlist', [
+            'playlistTracks' => $playlistTracks,
+            'account' => $account,
+            'user' => $user,
         ]);
     }
 

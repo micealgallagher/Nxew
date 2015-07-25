@@ -26,7 +26,10 @@ $this->title = 'Nxew';
                 ?>
             </div>
             <div class="col-lg-6">
-                <p><a class="btn btn-lg btn-primary home-page-buttons" href="http://www.yiiframework.com">Random Playlist</a></p>
+                <?php
+                    $options = ['class' => 'btn btn-lg btn-primary home-page-buttons'];
+                    echo Html::a('Random Playlist', ['site/random-playlist'], $options);
+                ?>
             </div>
             
         </div>
