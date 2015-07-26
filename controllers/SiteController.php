@@ -128,10 +128,9 @@ class SiteController extends Controller
     }
 
     public function actionRandomPlaylist() {
-
-        $id = Yii::$app->getUser()->id;
+        
         $account = Account::findRandom();
-        $user = User::findOne(['id' => $id]);
+        $user = User::findOne(['id' => $account->user_id]);
         $playlistTracks = PlaylistTrack::findAll(['account_id' => $account->id]);
 
 

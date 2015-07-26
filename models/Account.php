@@ -105,10 +105,12 @@ class Account extends \yii\db\ActiveRecord
     }*/
 
     public static function findRandom() {
-        return Account::findBySql('select * from account order by RAND() LIMIT 1');
+
+        return Account::findBySql('select * from account order by RAND() LIMIT 1')->one();
     }
 
     public function numOfPlaylistTracks() {
+
         return $this->findBySql('select count(*) from playlist_track where account_id = ' . $this->id);
     }
 
