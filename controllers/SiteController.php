@@ -127,8 +127,12 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionAsdfQwerty() {
+        $this->redirect('http://www.google.com');
+    }
+
     public function actionRandomPlaylist() {
-        
+
         $account = Account::findRandom();
         $user = User::findOne(['id' => $account->user_id]);
         $playlistTracks = PlaylistTrack::findAll(['account_id' => $account->id]);

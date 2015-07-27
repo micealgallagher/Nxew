@@ -1,0 +1,59 @@
+Message-ID: <07557f30d0752b792608a9397fa57d93@localhost>
+Date: Sun, 26 Jul 2015 20:13:48 +0000
+Subject: Nxew - Password Reset
+From: password-reset@nxew.ca
+To: me@mehaul.me
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="_=_swift_v4_1437941628_a608852ab9ab53ed737d7919ac927008_=_"
+
+
+--_=_swift_v4_1437941628_a608852ab9ab53ed737d7919ac927008_=_
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Password Reset
+Click the link below to reset your password
+Reset me!   =
+=20
+The Sign Painter
+
+--_=_swift_v4_1437941628_a608852ab9ab53ed737d7919ac927008_=_
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3=
+.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns=3D"http://www.w3.o=
+rg/1999/xhtml">
+    <head>
+        <meta http-equiv=3D"Content-Type" co=
+ntent=3D"text/html; charset=3DUTF-8" />
+        <style type=3D"text/css">=
+
+            .heading {...}
+            .list {...}
+            .foot=
+er {...}
+        </style>
+            </head>
+    <body>
+        <c=
+enter>
+    <img src=3D"http://localhost/nxew/web/img/nxewlogogoose.png" h=
+eight=3D"80px" alt=3D" Nxew Logo">    <hr width=3D"50%"/>
+    <h1>Passwor=
+d Reset</h1>
+    <h3>Click the link below to reset your password</h3>
+ =
+   <a href=3D"http://localhost/nxew/web/index.php?r=3Dsite%2Freset-password=
+&amp;token=3Di7_QBUSrFti382YSOeBubXkc_jjrJRpY">Reset me!</a>    <hr width=
+=3D"50%"/>
+    <i>The Sign Painter</i>
+</center>
+        </body>
+  =
+  </html>
+
+
+--_=_swift_v4_1437941628_a608852ab9ab53ed737d7919ac927008_=_--

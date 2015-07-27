@@ -179,6 +179,7 @@ class UserController extends Controller
     {
         $user = $this->findModel($id);
 
+
         if(isset($_POST['reset-password'])) {
             $user->resetPassword();
             $user->save();
@@ -207,7 +208,7 @@ class UserController extends Controller
         }
 
 
-        return $this->redirect(['view', 'id' => $model->id]);
+        return $this->redirect(['view', 'id' => $user->id]);
     }
 
     /**

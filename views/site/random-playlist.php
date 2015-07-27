@@ -9,8 +9,7 @@ use yii\helpers\Url;
 $this->title = 'View Account';
 ?>
 <div class="account-view">
-
-<h1><?= Html::encode($this->title) ?></h1>
+<h1>&nbsp;</h1>
 
 <div class="row">
     <div class="col-md-4 col-lg-4 col-sm-5">
