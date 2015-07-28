@@ -1,5 +1,5 @@
 # config directory
-/config
+/config/*.php
 
 # phpstorm project files
 .idea
