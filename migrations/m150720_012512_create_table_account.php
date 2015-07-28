@@ -11,6 +11,7 @@ class m150720_012512_create_table_account extends Migration
             'id' => Schema::TYPE_PK,
             'user_id' => Schema::integer(),
             'bio' => Schema::text() . ' NOT NULL',
+            'avatar_url' => Schema::string(500),
             'website' => Schema::string(500),
             'facebook' => Schema::string(500),
             'twitter' => Schema::string(500),
