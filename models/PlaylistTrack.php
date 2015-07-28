@@ -91,7 +91,7 @@ class PlaylistTrack extends \yii\db\ActiveRecord
         if (parent::beforeSave($insert)) {
 
             if ( empty($this->artwork_url) ) {
-                $this->artwork_url = Yii::$app->urlManager->baseUrl . Constant::DEFAULT_COVERART_URL;
+                $this->artwork_url = Constant::DEFAULT_COVERART_URL;
             }
 
             return true;

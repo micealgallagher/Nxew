@@ -31,7 +31,7 @@ $config = [
             'viewPath' => '@app/mail',
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.gmail.com',
+                'host' => 'smtp.gmail.com asdf',
                 'port' => 587,
                 'encryption' => 'tls',
             ],

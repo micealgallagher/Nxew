@@ -28,7 +28,7 @@ $this->title = 'Create User';
                 <?= $form->field($model, 'surname') ?>
                 <?= $form->field($model, 'email') ?>
                 <?= $form->field($model, 'type')->dropDownList($model->getTypeOptions()) ?>
-                <div class="form-group pull-right">
+                <div class="form-group">
                     <?= Html::submitButton('Create', ['class' => 'btn btn-success', 'name' => 'add-user-button']) ?>
                 </div>
             <?php ActiveForm::end(); ?>

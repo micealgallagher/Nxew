@@ -41,7 +41,9 @@ class UserController extends Controller
                         'matchCallback' => function ($rule, $action) {
                             $currentUser = User::findOne(['id' => Yii::$app->user->getId()]);
                             Yii::info('MGDEV - Current users type is: ' .$currentUser->type);
-                            return strcmp(Constant::USER_TYPE_USER, $currentUser->type) != 0;
+
+                            $isAdminUser = strcmp(Constant::USER_TYPE_ADMIN, $currentUser->type) === 0;
+                            return $isAdminUser;
                         }
                     ],
                 ],
@@ -179,7 +181,6 @@ class UserController extends Controller
     {
         $user = $this->findModel($id);
 
-
         if(isset($_POST['reset-password'])) {
             $user->resetPassword();
             $user->save();
@@ -196,6 +197,7 @@ class UserController extends Controller
             ]);
         } else {
             Yii::info('MGDEV - In the update action');
+            $model = $this->findModel($id);
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 Yii::info('MGDEV - redirecting to the view');
                 return $this->redirect(['view', 'id' => $model->id]);
