@@ -17,6 +17,7 @@ use app\models\User;
  * @property string $facebook
  * @property string $twitter
  * @property string $soundcloud
+ * @property string $avatar_url
  *
  * @property User $user
  */
@@ -38,7 +39,7 @@ class Account extends \yii\db\ActiveRecord
         return [
             [['user_id', 'bio'], 'required'],
             [['user_id'], 'integer'],
-            [['bio'], 'string'],
+            [['bio', avatar_url], 'string'],
             [['website', 'facebook', 'twitter', 'soundcloud'], 'url'],
             [['user_id'], 'unique'],
         ];
@@ -57,6 +58,7 @@ class Account extends \yii\db\ActiveRecord
             'facebook' => 'Facebook',
             'twitter' => 'Twitter',
             'soundcloud' => 'SoundCloud',
+            'avatar_url' => 'Avatar'
         ];
     }
 
