@@ -88,6 +88,7 @@ class AccountController extends Controller
     {
         $user = User::findOne(['id' => $id]);
         $userDetail = new UserDetail();
+        $account = Account::findOne(['user_id' => $id]);
 
         if ( isset($user) ) {
             $userDetail->userId = $user->id;
@@ -99,6 +100,7 @@ class AccountController extends Controller
         return $this->render('../setting/update', [
             'userDetail' => $userDetail,
             'securityForm' => $securityForm,
+            'account' => $account,
         ]);
     }
 
@@ -215,6 +217,24 @@ class AccountController extends Controller
         }
     }
 
+    public function actionUpdatePlaylistName()
+    {
+        Yii::info('MGDEV - Called the actionUpdateName in PlaylistController');
+        $account = Account::findOne(['user_id' => Yii::$app->user->id]);
+
+        if ($account->load(Yii::$app->request->post())) {
+
+            if ( strlen($account->playlist_name) < 3 ) {
+                $account->playlist_name = Constant::DEFAULT_PLAYLIST_NAME;
+            }
+
+            Yii::info('MGDEV - ISSET ' . isset($account->playlist_name) . ' LENGTH ' . strlen($account->playlist_name));
+            $account->save(false);
+        }
+
+        return $this->redirect(['account/view']);
+    }
+
     /**
      * Updates an existing Account model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -225,6 +245,9 @@ class AccountController extends Controller
     {
         $model = $this->findModel($id);
         $userId = $model->user_id;
+
+        $account = Account::findOne(['user_id' => $userId]);
+
         if ( $userId == Yii::$app->getUser()->id) {
 
             $user = User::findOne(['id' => $userId]);
@@ -235,6 +258,7 @@ class AccountController extends Controller
                 return $this->render('update', [
                     'model' => $model,
                     'user' => $user,
+                    'account' => $account,
                 ]);
             }
         } else {

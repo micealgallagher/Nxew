@@ -47,6 +47,28 @@ $this->title = 'Update Settings';
 </div>
 
 <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Playlist Name
+                </h3>
+            </div>
+            <div class="panel-body">
+                <?php
+                $form = ActiveForm::begin(['id' => 'update-account', 'action' => Yii::$app->getUrlManager()->createUrl(['account/update-playlist-name'])]);
+
+                echo $form->field($account, 'playlist_name');
+                echo Html::submitButton('Update', ['class' => 'btn btn-primary']);
+
+                ActiveForm::end();
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
         <div class="panel panel-success">
             <div class="panel-heading">

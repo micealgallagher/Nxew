@@ -17,4 +17,5 @@ class Constant
 	const URL_PREFIX = "http://";
 	const MAX_NUMBER_OF_TRACKS = 5;
 	const DEFAULT_COVERART_URL = '\img\noartwork.png';
+	const DEFAULT_PLAYLIST_NAME = 'Playlist';
 }

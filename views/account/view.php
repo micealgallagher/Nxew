@@ -78,7 +78,7 @@ $this->title = 'View Account';
             <div class="panel panel-success">
             <div class="panel-heading">
                 <h3 class="panel-title" style="height: 30px">
-                    Playlist
+                    <?= $account->playlist_name ?>
                     <div id="divAddSoundCloudDropDown" class="dropdown pull-right">
 
                         <?php

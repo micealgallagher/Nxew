@@ -18,6 +18,7 @@ use app\models\User;
  * @property string $twitter
  * @property string $soundcloud
  * @property string $avatar_url
+ * @property string $playlist_name
  *
  * @property User $user
  */
@@ -39,9 +40,10 @@ class Account extends \yii\db\ActiveRecord
         return [
             [['user_id', 'bio'], 'required'],
             [['user_id'], 'integer'],
-            [['bio', avatar_url], 'string'],
+            [['bio', 'avatar_url'], 'string'],
             [['website', 'facebook', 'twitter', 'soundcloud'], 'url'],
             [['user_id'], 'unique'],
+            [['playlist_name'], 'string', 'min' => 3],
         ];
     }
 
@@ -58,7 +60,8 @@ class Account extends \yii\db\ActiveRecord
             'facebook' => 'Facebook',
             'twitter' => 'Twitter',
             'soundcloud' => 'SoundCloud',
-            'avatar_url' => 'Avatar'
+            'avatar_url' => 'Avatar',
+            'playlist_name' => 'Playlist Name',
         ];
     }
 
@@ -73,11 +76,16 @@ class Account extends \yii\db\ActiveRecord
     public function beforeSave($insert) {
 
         if (parent::beforeSave($insert)) {
+
+            Yii::info('MGDEV - playlist is called xxx' . $this->playlist_name . 'xxx lenght is ' . sizeof($this->playlist_name));
+
+
             if ($this->isNewRecord) {
                 Yii::info('MGDEV - We got to the Account.beforeSave funciton. Giving it to: ' . Yii::$app->getUser()->id);
                 $this->user_id = Yii::$app->getUser()->id;
+
             } else {
-                Yii::info('MGDEV - Account.beforeSave funciton. Giving it to: ' . $this->user_id . ' with the bio: ' . $this->bio);
+                Yii::info('MGDEV - Account.beforeSave funciton. Giving it to: ' . $this->user_id . ' with the bio: ' . $this->bio . ' and playlist name' . $this->playlist_name);
             }
             return true;
         } else {
