@@ -78,6 +78,7 @@ class SiteController extends Controller
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
+        
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             Yii::$app->session->set(Constant::USER_TYPE, $model->type);
@@ -87,7 +88,7 @@ class SiteController extends Controller
 
         return $this->render('login', [
             'model' => $model,
-            'passwordReset' => true,
+            'passwordReset' => false,
         ]);
     }
 
@@ -113,7 +114,7 @@ class SiteController extends Controller
 
                 Yii::info('MGDEV - Reset the password. Now redirecting');
 
-                return $this->redirect(['site/login', 'model' => new LoginForm(), 'passwordReset' => true]);
+                return $this->render('login', ['model' => new LoginForm(), 'passwordReset' => true]);
             }
         } else {
             Yii::info('MGDEV - failed to reset the password');

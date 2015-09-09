@@ -10,6 +10,7 @@ $this->title = 'Login';
 ?>
 
 <?php
+Yii::info('MGDEV - Password rest is: ' . isset($passwordReset) ? $passwordReset : false);
 if ( isset($passwordReset) ? $passwordReset : false ) {
 ?>
     <div class="row center-block">
